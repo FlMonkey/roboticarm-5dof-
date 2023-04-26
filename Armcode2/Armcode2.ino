@@ -86,6 +86,8 @@ void test(){
 
 void hailJeff(){
   stall(115, shoulder);
+  delay(2000);
+
 }
 
 void readpos() {
