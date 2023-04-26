@@ -15,7 +15,7 @@ const int SHOULDER_PIN = 6;
 const int ELBOW_PIN = 7;
 const int WRIST_PIN = 8;
 const int SPIN_PIN = 9; 
-const int GRIP_PIN = 10;
+const int GRIP_PIN = 11;
 
 
 void setup() {
@@ -26,7 +26,9 @@ void setup() {
   grip.attach(GRIP_PIN);
   spin.attach(SPIN_PIN);
 
+  delay(500);
   Serial.begin(9600);
+  delay(500);
 }
 
 void stall(int moveto, Servo &servo, int speed = 20) {
@@ -43,8 +45,10 @@ void stall(int moveto, Servo &servo, int speed = 20) {
   }
 }
 
+
 void reset() {
-  
+  delay(1000);
+
   stall(97, shoulder);
   
   stall(85, elbow);
@@ -53,13 +57,16 @@ void reset() {
 
   stall(95, base);
 
-  stall(180, grip);
+  stall(200, grip);
 
-  stall(90, spin);
+  stall(60, spin);
 }
 
+
 void test(){
-  stall(150, shoulder);
+  //stall(0, grip);
+  
+  stall(35, shoulder, 35);
   stall(97, shoulder);
   
   stall(150, elbow);
@@ -68,11 +75,17 @@ void test(){
   stall(150, wrist);
   stall(98, wrist);
   
-  stall(150, base);
+  stall(30, base);
   stall(95, base);
 
-  stall(150, spin);
-  stall(90, spin);
+  stall(180, spin, 8);
+  stall(0, spin, 8);
+
+
+}
+
+void hailJeff(){
+  stall(115, shoulder);
 }
 
 void readpos() {
@@ -84,17 +97,42 @@ void readpos() {
   Serial.println(spin.read());
 }
 
-
 void wave() {
   
-  stall(125, shoulder);
+  stall(180, base);
+
+  stall(200, spin);
+
+  stall(110, shoulder);
+
+  stall(60, wrist);
 
   // Repeat the loop 3 times
-  for (int repetition = 0; repetition < 3; repetition++) {
+  for (int repetition = 0; repetition < 2; repetition++) {
     // Move the servo from 90 to 135 degrees
-    stall(135, wrist);
+    stall(120, wrist, 15);
     // Move the servo back from 135 to 90 degrees
-    stall(90, wrist);
+    stall(45, wrist, 15);
+  }
+}
+
+void sus(){
+  stall(165, shoulder);
+  for (int repetition = 0; repetition < 5; repetition++) {
+    stall(130, wrist, 13);
+    stall(100, wrist, 13);
+  }
+}
+
+void shake(){
+  //stall(160, elbow);
+  stall(120, elbow);
+  stall(150, shoulder, 35);
+  stall(180, spin, 5);
+  
+  for (int repetition = 0; repetition < 3; repetition++) {
+    stall(160, wrist, 25);
+    stall(130, wrist, 25);
   }
 }
 
@@ -145,12 +183,21 @@ void loop() {
   
   case 5:
     readpos();
-
+    break;
+  case 6:
+    stall(20, grip);
+    break;
+  case 7:
+    sus();
+    break;
+  case 8:
+    shake();
+    break;
+  case 9:
+  hailJeff();
   default:
     Serial.println("invalid option");
     break;
   
 }
-
-
 }
