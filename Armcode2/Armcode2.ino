@@ -84,11 +84,7 @@ void test(){
 
 }
 
-void hailJeff(){
-  stall(115, shoulder);
-  delay(2000);
 
-}
 
 void readpos() {
   Serial.println(shoulder.read());
@@ -195,8 +191,6 @@ void loop() {
   case 8:
     shake();
     break;
-  case 9:
-  hailJeff();
   default:
     Serial.println("invalid option");
     break;
